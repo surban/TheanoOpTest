@@ -19,6 +19,5 @@ Z = Z_re + Z_im * 1j
 print "X=",X
 print "Z=",Z
 
-
 theano.printing.pydotprint(z_func, outfile="optester.png", var_with_name_simple=True)
 

@@ -14,5 +14,5 @@ Z = z_func(X)
 print "X=",X
 print "Z=",Z
 
-
-
+theano.printing.pydotprint(z_func, outfile="sigmoid.png", var_with_name_simple=True)
+print z_func.maker.fgraph.toposort()

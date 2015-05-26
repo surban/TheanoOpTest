@@ -21,5 +21,6 @@ print "Z=",Z
 
 
 theano.printing.pydotprint(z_func, outfile="optesterone.png", var_with_name_simple=True)
+print z_func.maker.fgraph.toposort()
 
 

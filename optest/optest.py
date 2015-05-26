@@ -84,4 +84,32 @@ scalar_transferfunctionone = ScalarTransferFunctionOne(upgrade_to_float, name='s
 transferfunctionone = elemwise.Elemwise(scalar_transferfunctionone, name='transferfunctionone')
 
 
+class ScalarTransferFunctionTwo(scalar.ScalarOp):
+    nin = 2
+    nout = 1
+
+    def impl(self, x, y):
+        return (x+y)
+
+    def c_code(self, node, name, inp, out, sub):
+        x,y = inp
+        z_re, = out
+
+        if node.inputs[0].type == scalar.float32 or node.inputs[0].type == scalar.float64:
+            return """%(z_re)s = %(x)s + %(y)s;""" % locals()
+        else:
+            raise NotImplementedError('only floatingpoint is implemented')
+
+    def c_code_cache_version(self):
+        v = super(ScalarTransferFunctionTwo, self).c_code_cache_version()
+        if v:
+            return (5,) + v
+        else:
+            return v
+
+
+scalar_transferfunctiontwo = ScalarTransferFunctionTwo(scalar.upcast_out, name='scalar_transferfunctiontwo')
+transferfunctiontwo = elemwise.Elemwise(scalar_transferfunctiontwo, name='transferfunctionotwo')
+
+
 
